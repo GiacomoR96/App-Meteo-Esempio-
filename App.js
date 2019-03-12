@@ -1,137 +1,90 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, StatusBar, ImageBackground } from 'react-native';
+import * as React from 'react';
+import { Text, View, StyleSheet, StatusBar, Image, ScrollView } from 'react-native';
+import { Constants } from 'expo';
 
 StatusBar.setHidden(true);
 
-const ObjBottom = props => (
-  <View style={[styles.flex_column,styles.flex_center]}>
-    <Image source={props.image} style={styles.icon}></Image>
-    <Text style={styles.text}>{props.number1}</Text>
-    <Text style={styles.text}>{props.number2}</Text>
-    <Text style={styles.text}>{props.day}</Text>
-  </View>
-);
+// You can import from local files
+//import AssetExample from './components/AssetExample';
 
-const ListBottom = [
-  {image:require("./assets/weather-icon.png"), number1: "39", number2:"32", day:"Wed" },
-  {image:require("./assets/weather-icon.png"), number1: "39", number2:"39", day:"Thu" },
-  {image:require("./assets/weather-icon.png"), number1: "41", number2:"39", day:"Fri" },
-  {image:require("./assets/weather-icon.png"), number1: "43", number2:"30", day:"Sat" },
-  {image:require("./assets/weather-icon.png"), number1: "34", number2:"30", day:"Sun" }
-];
+// or any pure javascript modules available in npm
+//import { Card } from 'react-native-paper';
 
-
-const ObjMiddle = props => (
-  <View style={[styles.flex_column, styles.flex_center]}>
-    <Text style={styles.text}>{props.text1}</Text>
-    <Text style={styles.text}>{props.text2}</Text>
-  </View>
-);
-
-const ListMiddle = [
-  {text1:"Humidity", text2:"65%"},
-  {text1:"Wind", text2:"0 MPH%"},
-  {text1:"Pressure", text2:"992 mb"}
-];
-
-
-//     <Image source={require("./assets/background2.jpg")} style={styles.backgroundImage}></Image>
-
-function App(){
-
-
-  estrayArrayMiddle = () => (
-    ListMiddle.map( (obj,index) => <ObjMiddle text1={obj.text1} text2={obj.text2} key={index}></ObjMiddle> )
-  );
-
-  estrayArrayBottom = () => (
-    ListBottom.map( (obj,index) => <ObjBottom image={obj.image} number1={obj.number1} number2={obj.number2} day={obj.day} key={index} ></ObjBottom> )
-  );
-
-  return(
-    <View style={styles.container}>
-
-      <ImageBackground source={require('./assets/background2.jpg')} style={styles.backgroundImage}>
-
-        <View style={[styles.flex_row, styles.flex_space_between,styles.marginDefault]}>
-            <Image style={styles.icon} source={require("./assets/icon-menu-apple.png")}></Image>
-            <Text style={styles.text}>2:10 PM</Text>
-            <Image style={styles.icon} source={require("./assets/icon-menu2-apple.png")}></Image>
-          </View>
-
-          <View style={styles.flex_center}>
-          <Text style={[styles.text, {fontSize: 30}]}>Ushuaia</Text>
-          <Text style={[styles.text, {fontSize: 130}]}>41</Text>
-          <Text style={styles.text}>Scattered Clouds</Text>
-          </View>
-          
-          <View style={[styles.flex_row,styles.flex_space_around,styles.marginBoxTop]}>
-            {this.estrayArrayMiddle()}
-          </View>
-
-          <Image source={require("./assets/line.png")} style={[styles.flex_row,styles.line]}></Image>
-          
-          <View style={[styles.flex_row,styles.flex_space_around,styles.marginBoxTop]}>
-          {this.estrayArrayBottom()}
-          </View>
-      </ImageBackground>
+const MyCard = props => (
+  <View style={styles.card}>
+    <View style={styles.day}>
+      <Text>{props.dayWeek}</Text>
+      <Text>{props.day}</Text>
     </View>
-  )
-}
+    <Image style={styles.image} source={props.image}></Image>
+    <Text style={styles.description}>{props.description}</Text>
+    <View style={styles.description}>
+      <Text>{props.temperature}</Text>
+      <Text>{props.description1}</Text>
+      <Text>{props.description2}</Text>
+    </View>
+  </View>
+);
 
-export default App;
+const ListElements = [
+  {dayWeek:"WED", day:"22 Apr", image:require("./assets/sun.png"), temperature:"25.1/12.8°C", description1:"Forecast: Sky is clear", description2:"Humidity: 47%"},
+  {dayWeek:"THU", day:"23 Apr", image:require("./assets/sun.png"), temperature:"26.2/9.5°C", description1:"Forecast: Sky is clear", description2:"Humidity: 45%"},
+  {dayWeek:"FRI", day:"24 Apr", image:require("./assets/sun.png"), temperature:"27.0/10.3°C", description1:"Forecast: Sky is clear", description2:"Humidity: 47%"},
+  {dayWeek:"SAT", day:"25 Apr", image:require("./assets/clouds.png"), temperature:"27.6/16.7°C", description1:"Forecast: Sky is clear", description2:"Humidity: 0%"},
+  {dayWeek:"SUN", day:"26 Apr", image:require("./assets/clouds.png"), temperature:"24.5/17.3°C", description1:"Forecast: Sky is clear", description2:"Humidity: 0%"},
+  {dayWeek:"MON", day:"27 Apr", image:require("./assets/clouds.png"), temperature:"26.0/15.5°C", description1:"Forecast: Sky is clear", description2:"Humidity: 0%"},
+  {dayWeek:"TUE", day:"28 Apr", image:require("./assets/sun.png"), temperature:"25.1/12.8°C", description1:"Forecast: Sky is clear", description2:"Humidity: 47%"},
+  {dayWeek:"WED", day:"29 Apr", image:require("./assets/sun.png"), temperature:"25.1/12.8°C", description1:"Forecast: Sky is clear", description2:"Humidity: 47%"},
+  {dayWeek:"THU", day:"30 Apr", image:require("./assets/sun.png"), temperature:"26.2/9.5°C", description1:"Forecast: Sky is clear", description2:"Humidity: 45%"},
+  {dayWeek:"FRI", day:"31 Apr", image:require("./assets/sun.png"), temperature:"27.0/10.3°C", description1:"Forecast: Sky is clear", description2:"Humidity: 47%"},
+];
+
+
+export default class App extends React.Component {
+
+  extrapolationList = () => (
+    ListElements.map((obj,index) => (<MyCard dayWeek={obj.dayWeek} day={obj.day} image={obj.image} temperature={obj.temperature} description1={obj.description1} description2={obj.description2}></MyCard>))
+  )
+
+  render() {
+    return (
+      <ScrollView style={styles.container}>
+        
+        {this.extrapolationList()}
+
+      </ScrollView>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-//    backgroundColor:"gray"
-///////////////////////////////////////////////    backgroundImage:"./assets/background2.jpg"
-  //  alignItems: 'center',
-  //  justifyContent: 'center',
+    backgroundColor: 'white',
   },
-  backgroundImage:{
-    flex: 1,
-   // width: null,
-   // height: null,
-   // resizeMode:'stretch'
+  card:{
+    padding:5,
+    flex:1,
+    flexDirection:"row",
+    justifyContent:"space-around",
+    alignItems:"center",
+    borderBottomWidth:1,
+    borderColor: "grey"
   },
-  flex_row:{
-    flexDirection:'row'
+  day:{
+    color:"black",
+    fontSize:20,
+    fontWeight: 'bold',
+    textAlign: 'center'
   },
-  flex_column:{
-    flexDirection:'column'
+  image:{
+    width:100,
+    height:100,
   },
-  flex_space_between:{
-    justifyContent:"space-between"
-  },
-  flex_space_around:{
-    justifyContent:"space-around"
-  },
-  flex_center:{
-    alignItems:'center',
-  },
-  flex_stretch:{
-    alignItems:'stretch',
-  },
-  icon:{
-    width:30,
-    height:30
-  },
-  text:{
-    color:"white",
-    fontSize: 20
-  },
-  marginDefault:{
-    margin:15
-  },
-  marginBoxTop:{
-    marginTop: 20
-  },
-  line:{
-  //  flex: 1,
-    width: null,
-    height: 100,  //82
-    resizeMode:'stretch',
-    marginTop: 20
+  description:{
+    color:"black",
+    fontSize:20,
+    fontWeight: 'bold',
+    textAlign: 'left'
   }
 });
